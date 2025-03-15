@@ -1,0 +1,1049 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={R Notebook},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{R Notebook}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+This is an \href{http://rmarkdown.rstudio.com}{R Markdown} Notebook.
+When you execute code within the notebook, the results appear beneath
+the code.
+
+Try executing this chunk by clicking the \emph{Run} button within the
+chunk or by placing your cursor inside it and pressing
+\emph{Ctrl+Shift+Enter}.
+
+\#\#\#\#LOAD Library \# Install the packages if not already installed
+install.packages(``dplyr'') install.packages(``tidyr'')
+install.packages(``tidyverse'') install.packages(``ggplot2'') \# Load
+the libraries library(dplyr) library(tidyr) library(tidyverse)
+library(ggplot2)
+
+\section{Install the readxl package if it's not already
+installed}\label{install-the-readxl-package-if-its-not-already-installed}
+
+install.packages(``readxl'')
+
+\section{Load the readxl library}\label{load-the-readxl-library}
+
+library(readxl)
+
+\section{Specify the path to the Excel
+file}\label{specify-the-path-to-the-excel-file}
+
+file\_path \textless-
+``C:\textbackslash Users\textbackslash Acer\textbackslash OneDrive\textbackslash Desktop\textbackslash Battles
+360\textbackslash Dataset \& Problem Question for Battle of Insights
+Workshops\textbackslash Data\textbackslash transactions.xlsx''
+
+\section{Read the data from the Excel
+file}\label{read-the-data-from-the-excel-file}
+
+data \textless- read\_excel(file\_path)
+
+\section{View the first few rows of the
+dataset}\label{view-the-first-few-rows-of-the-dataset}
+
+head(data) View(data) \#Question 1: Average Transaction Amount by Store
+Type and Season library(dplyr) library(dplyr)
+
+\section{Correcting column names in the
+code}\label{correcting-column-names-in-the-code}
+
+average\_transaction \textless- data \%\textgreater\%
+group\_by(Store\_Type, Season) \%\textgreater\%
+summarise(average\_amount = mean(\texttt{Amount(\$)}, na.rm = TRUE))
+\%\textgreater\% arrange(Store\_Type, Season)
+
+\section{View the result}\label{view-the-result}
+
+print(average\_transaction)
+
+print(average\_transaction)
+
+\section{Install and load the knitr package for using
+kable}\label{install-and-load-the-knitr-package-for-using-kable}
+
+install.packages(``knitr'') library(knitr)
+
+\section{Using dplyr to calculate the average transaction
+amount}\label{using-dplyr-to-calculate-the-average-transaction-amount}
+
+library(dplyr) average\_transaction \textless- data \%\textgreater\%
+group\_by(Store\_Type, Season) \%\textgreater\%
+summarise(average\_amount = mean(\texttt{Amount(\$)}, na.rm = TRUE))
+\%\textgreater\% arrange(Store\_Type, Season)
+
+\section{Create a table using kable}\label{create-a-table-using-kable}
+
+average\_transaction\_table \textless- kable(average\_transaction,
+format = ``html'', table.attr = ``class=`table table-bordered
+table-striped'\,'', caption = ``Average Transaction Amount by Store Type
+and Season'')
+
+\section{To display the table in an R Markdown document or a Jupyter
+Notebook with R
+kernel}\label{to-display-the-table-in-an-r-markdown-document-or-a-jupyter-notebook-with-r-kernel}
+
+print(average\_transaction\_table) \# Save the table to an HTML file
+cat(kable(average\_transaction, format = ``html'', table.attr =
+``class=`table table-bordered table-striped'\,'', caption = ``Average
+Transaction Amount by Store Type and Season''), file =
+``Average\_Transaction.html'')
+
+\section{Install the gtsummary package if it's not already
+installed}\label{install-the-gtsummary-package-if-its-not-already-installed}
+
+install.packages(``gtsummary'', dependencies = TRUE)
+
+\section{Load the gtsummary library}\label{load-the-gtsummary-library}
+
+library(gtsummary)
+
+library(dplyr) library(gtsummary)
+
+\# Q1 Create a summary table after correctly calculating the average
+transaction amount table\_summary \textless- data \%\textgreater\%
+group\_by(Store\_Type, Season) \%\textgreater\%
+summarise(average\_amount = mean(\texttt{Amount(\$)}, na.rm = TRUE))
+\%\textgreater\% ungroup() \%\textgreater\% tbl\_summary( by =
+Store\_Type, \# Splitting by Store\_Type statistic = all\_continuous()
+\textasciitilde{} ``\{mean\}'', \# Display mean values digits =
+all\_continuous() \textasciitilde{} 2, \# Setting decimal places missing
+= ``no'' \# Handling missing data ) \%\textgreater\%
+modify\_header(label \textasciitilde{} ``\textbf{Variable}'')
+\%\textgreater\% \# Modifying the header add\_n() \%\textgreater\% \#
+Add a column with the count of observations bold\_labels() \# Making
+labels bold
+
+\# Print the table print(table\_summary)
+
+\# Export the table to a Word document table\_summary \%\textgreater\%
+as\_flex\_table() \%\textgreater\% flextable::save\_as\_docx(path =
+``Average\_Transaction\_Summary.docx'')
+
+\#Question 2: Common Payment Method in High-Value Transactions by City
+library(dplyr)
+
+\# Calculate overall average transaction amount using the correct column
+name overall\_avg \textless- mean(data\(`Amount(\))`, na.rm = TRUE)
+
+\# Filter data for high-value transactions using the correct column name
+high\_value\_transactions \textless- data \%\textgreater\%
+filter(\texttt{Amount(\$)} \textgreater{} overall\_avg)
+
+\# Check the filtered data print(high\_value\_transactions)
+
+library(gtsummary)
+
+\# Creating a gtsummary table for high-value transactions
+table\_high\_value \textless- high\_value\_transactions \%\textgreater\%
+select(Store\_Type, City, \texttt{Amount(\$)}, Total\_Items,
+Payment\_Method) \%\textgreater\% tbl\_summary( by = Store\_Type, \#
+Grouping by Store\_Type for detailed breakdown statistic = list(
+all\_continuous() \textasciitilde{} ``\{mean\} (\{sd\})'', \# Show mean
+and standard deviation for continuous variables all\_categorical()
+\textasciitilde{} ``\{n\} (\{p\}\%)'', \# Show count and percentage for
+categorical variables Payment\_Method \textasciitilde{} ``\{n\}
+(\{p\}\%)'' \# Specific format for Payment Method ), digits =
+all\_continuous() \textasciitilde{} 2, \# Set decimal places for
+continuous variables missing = ``no'' \# Handle missing data )
+\%\textgreater\% modify\_header(label \textasciitilde{}
+``\textbf{Variable}'') \%\textgreater\% \# Modifying the header add\_n()
+\%\textgreater\% \# Add a count of observations bold\_labels() \# Making
+labels bold
+
+\# Printing the summary table print(table\_high\_value)
+
+\# Export the gtsummary table to a Word document table\_high\_value
+\%\textgreater\% as\_flex\_table() \%\textgreater\%
+flextable::save\_as\_docx(path =
+``High\_Value\_Transactions\_Summary.docx'')
+
+library(dplyr) library(gtsummary)
+
+\# Assuming `high\_value\_transactions' includes necessary variables
+such as Payment\_Method. \# Ensure to select only required columns and
+perform summarization appropriate for gtsummary.
+
+table\_high\_value \textless- high\_value\_transactions \%\textgreater\%
+select(Store\_Type, City, \texttt{Amount(\$)}, Total\_Items,
+Payment\_Method) \%\textgreater\% tbl\_summary( by = Store\_Type, \#
+Grouping by Store\_Type for detailed breakdown statistic = list(
+\texttt{Amount(\$)} \textasciitilde{} ``\{mean\} (\{sd\})'', \# Show
+mean and standard deviation for transaction amounts Total\_Items
+\textasciitilde{} ``\{mean\} (\{sd\})'', \# Show mean and standard
+deviation for total items Payment\_Method \textasciitilde{} ``\{n\}
+(\{p\}\%)'', \# Show count and percentage for payment methods City
+\textasciitilde{} ``\{n\} (\{p\}\%)'' \# Show count and percentage for
+cities ), digits = all\_continuous() \textasciitilde{} 2, \# Set decimal
+places for continuous variables missing = ``no'' \# Handle missing data
+) \%\textgreater\% modify\_header(label \textasciitilde{}
+``\textbf{Variable}'') \%\textgreater\% \# Modifying the header add\_n()
+\%\textgreater\% \# Add a count of observations bold\_labels()
+\%\textgreater\% as\_flex\_table() \%\textgreater\%
+set\_table\_properties(layout = ``autofit'') \# Making labels bold and
+adjusting table layout
+
+\# Print the table to check it in the console print(table\_high\_value)
+
+\# If you want to save this table to a Word document
+save\_as\_docx(table\_high\_value, path =
+``High\_Value\_Transactions\_Summary.docx'')
+
+library(dplyr) library(ggplot2)
+
+\# Assuming `high\_value\_transactions' includes necessary variables
+such as Payment\_Method and City.
+
+\# Calculate the most common payment method by city in high-value
+transactions common\_payment\_method \textless-
+high\_value\_transactions \%\textgreater\% group\_by(City)
+\%\textgreater\% count(Payment\_Method) \%\textgreater\% top\_n(n = 1,
+wt = n) \%\textgreater\% ungroup() \%\textgreater\% arrange(City)
+
+\# Plot the most common payment method by city payment\_plot \textless-
+ggplot(common\_payment\_method, aes(x = reorder(City, -n), y = n, fill =
+Payment\_Method)) + geom\_col() + labs(title = ``Most Common Payment
+Method in High-Value Transactions by City'', x = ``City'', y =
+``Frequency'', fill = ``Payment Method'') + theme\_minimal() +
+theme(axis.text.x = element\_text(angle = 45, hjust = 1)) \# Rotate the
+city names for better readability
+
+\# Print the plot print(payment\_plot)
+
+\# Install the viridis package if it's not already installed
+install.packages(``viridis'')
+
+library(dplyr) library(ggplot2) library(viridis) \# For color-blind
+friendly palettes
+
+\# Calculate the most common payment method by city in high-value
+transactions common\_payment\_method \textless-
+high\_value\_transactions \%\textgreater\% group\_by(City)
+\%\textgreater\% count(Payment\_Method) \%\textgreater\% mutate(rank =
+rank(-n)) \%\textgreater\% filter(rank == 1) \%\textgreater\% ungroup()
+\%\textgreater\% arrange(City)
+
+\# Plot the most common payment method by city payment\_plot \textless-
+ggplot(common\_payment\_method, aes(x = reorder(City, -n), y = n, fill =
+Payment\_Method)) + geom\_col(show.legend = TRUE) +
+scale\_fill\_viridis\_d(begin = 0.3, end = 0.9, option = ``D'') + \#
+Using a color-blind friendly palette labs(title = ``Dominant Payment
+Method in High-Value Transactions by City'', subtitle = ``Data
+represents the most frequently used payment method for high-value
+transactions across various cities.'', x = ``City'', y = ``Frequency'',
+fill = ``Payment Method'') + theme\_minimal(base\_size = 14) + \#
+Increase base font size for better readability theme(axis.text.x =
+element\_text(angle = 45, hjust = 1, vjust = 1), axis.title =
+element\_text(size = 16), title = element\_text(size = 20),
+legend.position = ``right'', legend.title = element\_text(size = 14),
+legend.text = element\_text(size = 12)) + guides(fill =
+guide\_legend(title.position = ``top'', title.hjust = 0.5))
+
+\# Save the plot as a PNG file in high resolution
+ggsave(``common\_payment\_method.png'', payment\_plot, width = 8, height
+= 4, dpi = 300)
+
+\#library(dplyr) library(ggplot2)
+
+\# Assuming your dataset is named `data' and the amount column is
+\texttt{Amount(\$)} average\_transaction\_amount \textless- data
+\%\textgreater\% group\_by(Store\_Type) \%\textgreater\% \# You can
+change Store\_Type to another variable, like City
+summarise(Average\_Amount = mean(\texttt{Amount(\$)}, na.rm = TRUE))
+\%\textgreater\% ungroup() \%\textgreater\%
+arrange(desc(Average\_Amount))
+
+\# Create a bar plot using ggplot2 plot \textless-
+ggplot(average\_transaction\_amount, aes(x = reorder(Store\_Type,
+-Average\_Amount), y = Average\_Amount, fill = Store\_Type)) +
+geom\_col() + labs(title = ``Average Transaction Amount by Store Type'',
+x = ``Store Type'', y = ``Average Transaction Amount (\$)'') +
+theme\_minimal() + theme(axis.text.x = element\_text(angle = 45, hjust =
+1)) + scale\_fill\_brewer(palette = ``Paired'') \# This adds a nice
+color palette
+
+\# Print the plot print(plot)
+
+\# Optionally, save the plot
+ggsave(``average\_transaction\_amount.png'', plot, width = 10, height =
+6, dpi = 300)
+
+library(dplyr) library(ggplot2)
+
+\# Create a Publication-Quality Plot
+
+\# Load necessary library for high-quality graphics if
+(!require(``Cairo'')) install.packages(``Cairo'') library(Cairo)
+
+\# Create a professional bar plot Cairo(2400, 1200,
+file=``average\_transaction\_amount.png'', type=``png'', bg=``white'',
+dpi=300) plot \textless- ggplot(average\_transaction\_amount, aes(x =
+reorder(Store\_Type, -Average\_Amount), y = Average\_Amount, fill =
+Store\_Type)) + geom\_col() + scale\_fill\_brewer(palette = ``Dark2'') +
+\# Choosing a color-blind friendly palette labs(title = ``Average
+Transaction Amount by Store Type'', subtitle = ``Data aggregated from
+retail transactions'', x = ``Store Type'', y = ``Average Transaction
+Amount (\$)'') + theme\_minimal(base\_size = 20) + theme(axis.text.x =
+element\_text(angle = 45, hjust = 1, size = 18), axis.text.y =
+element\_text(size = 18), axis.title = element\_text(size = 22),
+plot.title = element\_text(size = 24), plot.subtitle =
+element\_text(size = 22), legend.position = ``none'') \# Remove legend
+if unnecessary dev.off()
+
+\# Display all column names from the dataset print(names(data))
+
+library(dplyr) library(lubridate) \# Ensures proper handling of date
+data
+
+\# Transforming the `Date' column to extract the month in a proper
+format data \textless- data \%\textgreater\% mutate(month =
+month(as.Date(Date, format=``\%Y-\%m-\%d''), label = TRUE, abbr =
+FALSE)) \# Adjust the format as per your date representation
+
+\# Grouping data by `Discount\_Applied' and the extracted `month'
+column, then summarising sales\_comparison \textless- data
+\%\textgreater\% group\_by(Discount\_Applied, month) \%\textgreater\%
+summarise(average\_sales = mean(\texttt{Amount(\$)}, na.rm = TRUE),
+.groups = `drop') \%\textgreater\% arrange(month)
+
+\# Display the results print(sales\_comparison)
+
+library(dplyr) library(lubridate) library(gtsummary)
+
+\# Assuming your date format is YYYY-MM-DD, adjust if it's different
+data \textless- data \%\textgreater\% mutate(month =
+format(as.Date(Date, format=``\%Y-\%m-\%d''), ``\%Y-\%m'')) \# This will
+create a year-month format like 2020-01
+
+\# Now let's verify that the month column has been added and formatted
+correctly print(head(data\$month))
+
+library(dplyr) library(gtsummary)
+
+\# Summarize the data by month and Discount\_Applied
+sales\_summary\_data \textless- data \%\textgreater\% group\_by(month,
+Discount\_Applied) \%\textgreater\% summarise(Average\_Sales =
+mean(\texttt{Amount(\$)}, na.rm = TRUE), .groups = ``drop'')
+
+\# Create a summary table using gtsummary sales\_summary\_table
+\textless- sales\_summary\_data \%\textgreater\% tbl\_summary( by =
+Discount\_Applied, \# Group by Discount\_Applied statistic =
+list(Average\_Sales \textasciitilde{} ``\{mean\} (\{sd\})''), \# Display
+mean and standard deviation digits = list(Average\_Sales
+\textasciitilde{} 2), \# Set decimal places label = list(Average\_Sales
+\textasciitilde{} ``Average Sales (\$)''), missing = ``no'' )
+\%\textgreater\% modify\_header(stat\_by = ``\textbf{Average by Discount
+Status}'') \%\textgreater\% \# Modify header for clarity bold\_labels()
+\# Make labels bold for professionalism
+
+\# Display the table sales\_summary\_table
+
+\# Export the summary table to a Word document sales\_summary\_table
+\%\textgreater\% as\_flex\_table() \%\textgreater\%
+flextable::save\_as\_docx(path = ``sales\_summary\_table.docx'')
+
+\# Export the summary table to an HTML file sales\_summary\_table
+\%\textgreater\% as\_flex\_table() \%\textgreater\%
+flextable::save\_as\_html(path = ``sales\_summary\_table.html'')
+
+\#VISUALIZATION \#Step 1: Prepare the Data library(dplyr)
+library(lubridate)
+
+\# Summarize the data by month and Discount\_Applied
+sales\_summary\_data \textless- data \%\textgreater\% mutate(month =
+format(as.Date(Date, format = ``\%Y-\%m-\%d''), ``\%Y-\%m''))
+\%\textgreater\% group\_by(month, Discount\_Applied) \%\textgreater\%
+summarise(Average\_Sales = mean(\texttt{Amount(\$)}, na.rm = TRUE),
+.groups = ``drop'')
+
+\#Step 2: Create a Professional Visualization
+
+library(ggplot2) library(Cairo)
+
+library(ggplot2) library(Cairo)
+
+\# Generate a professional bar chart Cairo(2400, 1600, file =
+``sales\_summary\_bar\_chart.png'', type = ``png'', bg = ``white'', dpi
+= 300)
+
+ggplot(sales\_summary\_data, aes(x = month, y = Average\_Sales, fill =
+Discount\_Applied)) + geom\_col(position = ``dodge'', color = ``black'',
+size = 0.3) + scale\_fill\_manual(values = c(``\#1b9e77'',
+``\#d95f02'')) + \# Custom color-blind-friendly palette labs( title =
+``Average Sales by Month and Discount Status'', subtitle = ``Comparison
+of average transaction amounts with and without discounts'', x =
+``Month'', y = ``Average Sales (\$)'', fill = ``Discount Applied'' ) +
+theme\_minimal(base\_size = 16) + theme( axis.text.x =
+element\_text(angle = 45, hjust = 1, size = 12), axis.title =
+element\_text(size = 14), legend.title = element\_text(size = 14),
+legend.text = element\_text(size = 12), plot.title = element\_text(size
+= 18, face = ``bold''), plot.subtitle = element\_text(size = 14) )
+
+dev.off()
+
+Cairo(2400, 1600, file = ``sales\_summary\_line\_chart.png'', type =
+``png'', bg = ``white'', dpi = 300)
+
+ggplot(sales\_summary\_data, aes(x = month, y = Average\_Sales, group =
+Discount\_Applied, color = Discount\_Applied)) + geom\_line(size = 1.2)
++ geom\_point(size = 3) + scale\_color\_manual(values = c(``\#1b9e77'',
+``\#d95f02'')) + \# Custom color palette labs( title = ``Monthly Trend
+in Average Sales by Discount Status'', subtitle = ``Line plot showing
+sales trends for discounted vs non-discounted transactions'', x =
+``Month'', y = ``Average Sales (\$)'', color = ``Discount Applied'' ) +
+theme\_minimal(base\_size = 16) + theme( axis.text.x =
+element\_text(angle = 45, hjust = 1, size = 12), axis.title =
+element\_text(size = 14), legend.title = element\_text(size = 14),
+legend.text = element\_text(size = 12), plot.title = element\_text(size
+= 18, face = ``bold''), plot.subtitle = element\_text(size = 14) )
+
+dev.off()
+
+library(ggplot2)
+
+\# Basic test plot ggplot(mtcars, aes(x = wt, y = mpg)) + geom\_point()
+
+library(ggplot2)
+
+\# Plot your actual data ggplot(sales\_summary\_data, aes(x = month, y =
+Average\_Sales, fill = Discount\_Applied)) + geom\_col(position =
+``dodge'', color = ``black'', size = 0.3) + scale\_fill\_manual(values =
+c(``\#1b9e77'', ``\#d95f02'')) + labs( title = ``Average Sales by Month
+and Discount Status'', subtitle = ``Comparison of average transaction
+amounts with and without discounts'', x = ``Month'', y = ``Average Sales
+(\$)'', fill = ``Discount Applied'' ) + theme\_minimal(base\_size = 16)
++ theme( axis.text.x = element\_text(angle = 45, hjust = 1, size = 12),
+axis.title = element\_text(size = 14), legend.title = element\_text(size
+= 14), legend.text = element\_text(size = 12), plot.title =
+element\_text(size = 18, face = ``bold''), plot.subtitle =
+element\_text(size = 14) )
+
+\#Question 4: Cities with Highest Average Items Per Transaction and
+Seasonal Sales Variance library(dplyr) \# Calculate average items per
+transaction by city average\_items \textless- data \%\textgreater\%
+group\_by(City) \%\textgreater\% \# Use `City' instead of `city'
+summarise(avg\_items = mean(Total\_Items, na.rm = TRUE))
+\%\textgreater\% \# Use `Total\_Items' instead of
+`items\_per\_transaction' top\_n(n = 3, wt = avg\_items) \# Get the top
+3 cities by average items
+
+\# Print the results print(average\_items)
+
+library(ggplot2)
+
+\# Define a custom color palette for the bars custom\_colors \textless-
+c(``\#1b9e77'', ``\#d95f02'', ``\#7570b3'') \# Use a color-blind
+friendly palette
+
+\# Create a professional bar plot ggplot(average\_items, aes(x =
+reorder(City, avg\_items), y = avg\_items, fill = City)) +
+geom\_col(color = ``black'', size = 0.4, width = 0.6) + \# Narrower bars
+with black border geom\_text(aes(label = round(avg\_items, 2)), vjust =
+-0.3, size = 5, color = ``black'') + \# Add exact values above bars
+scale\_fill\_manual(values = custom\_colors) + \# Apply custom colors
+labs( title = ``Top 3 Cities by Average Items per Transaction'',
+subtitle = ``Analysis of cities with the highest average items per
+transaction'', x = ``City'', y = ``Average Items per Transaction'', fill
+= ``City'' ) + theme\_minimal(base\_size = 16) + theme( axis.text.x =
+element\_text(angle = 0, hjust = 0.5, size = 14), \# Centered, larger
+city names axis.title.x = element\_text(size = 16, face = ``bold''), \#
+Bold x-axis title axis.title.y = element\_text(size = 16, face =
+``bold''), \# Bold y-axis title axis.text.y = element\_text(size = 12),
+\# Larger y-axis labels plot.title = element\_text(size = 20, face =
+``bold'', hjust = 0.5), \# Center-aligned title plot.subtitle =
+element\_text(size = 16, face = ``italic'', hjust = 0.5), \#
+Center-aligned subtitle legend.position = ``none'', \# Remove legend for
+simplicity panel.grid.major.y = element\_line(color = ``gray80'', size =
+0.5), \# Subtle horizontal gridlines panel.grid.minor =
+element\_blank(), \# Remove minor gridlines panel.background =
+element\_rect(fill = ``white''), \# Clean white background
+plot.background = element\_rect(fill = ``white'') \# Clean plot
+background )
+
+\#\#\#Table library(gtsummary)
+
+\# Create a gtsummary table table\_average\_items \textless-
+average\_items \%\textgreater\% tbl\_summary( by = NULL, \# No grouping
+needed since this is already a summarized table statistic =
+all\_continuous() \textasciitilde{} ``\{mean\}'', \# Display mean for
+continuous variables digits = all\_continuous() \textasciitilde{} 2, \#
+Set decimal places to 2 label = list(avg\_items \textasciitilde{}
+``Average Items per Transaction''), missing = ``no'' ) \%\textgreater\%
+modify\_header(label \textasciitilde{} ``\textbf{City}'')
+\%\textgreater\% \# Rename header for the City column
+modify\_caption(``\textbf{Top 3 Cities by Average Items per
+Transaction}'') \%\textgreater\% \# Add a table caption bold\_labels()
+\# Bold column labels for emphasis
+
+\# Print the table table\_average\_items
+
+library(flextable)
+
+\# Save the table as a Word document table\_average\_items
+\%\textgreater\% as\_flex\_table() \%\textgreater\%
+flextable::save\_as\_docx(path = ``average\_items\_table.docx'')
+
+\#Question 5: Effectiveness of Promotions on Transaction Amounts by
+Season
+
+library(dplyr)
+
+\# Group data by Promotion type and Season, calculate the average
+transaction amount promotion\_effectiveness \textless- data
+\%\textgreater\% group\_by(Promotion, Season) \%\textgreater\% \# Adjust
+column names summarise(average\_transaction\_amount =
+mean(\texttt{Amount(\$)}, na.rm = TRUE), .groups = ``drop'')
+\%\textgreater\% \# Calculate mean arrange(Season,
+desc(average\_transaction\_amount)) \%\textgreater\% \# Arrange by
+Season and descending transaction amount group\_by(Season)
+\%\textgreater\% \# Regroup by Season slice\_max(order\_by =
+average\_transaction\_amount, n = 1) \# Select top promotion per season
+
+\# Print the results print(promotion\_effectiveness)
+
+library(gtsummary)
+
+\# Create a gtsummary table promotion\_table \textless-
+promotion\_effectiveness \%\textgreater\% tbl\_summary( statistic =
+all\_continuous() \textasciitilde{} ``\{value\}'', \# Display the
+existing values digits = all\_continuous() \textasciitilde{} 2, \# Set
+decimal places to 2 label = list( Promotion \textasciitilde{} ``Top
+Promotion'', average\_transaction\_amount \textasciitilde{} ``Average
+Transaction Amount (\$)'' ), missing = ``no'' ) \%\textgreater\%
+modify\_header(label \textasciitilde{} ``\textbf{Variable}'')
+\%\textgreater\% \# Adjust headers modify\_caption(``\textbf{Top
+Promotions by Season}'') \%\textgreater\% \# Add a table caption
+bold\_labels() \# Bold column labels
+
+\# Display the table promotion\_table library(flextable)
+
+\# Save as Word document promotion\_table \%\textgreater\%
+as\_flex\_table() \%\textgreater\% flextable::save\_as\_docx(path =
+``promotion\_effectiveness\_table.docx'')
+
+\#VISUALIZE library(ggplot2)
+
+\# Professional bar plot ggplot(promotion\_effectiveness, aes(x =
+Season, y = average\_transaction\_amount, fill = Promotion)) +
+geom\_col(color = ``black'', width = 0.7) + geom\_text(aes(label =
+round(average\_transaction\_amount, 2)), vjust = -0.5, size = 5, color =
+``black'') + scale\_fill\_brewer(palette = ``Set2'') + \# Use a
+professional color palette labs( title = ``Top Promotion Effectiveness
+by Season'', subtitle = ``Average transaction amount for the most
+effective promotion in each season'', x = ``Season'', y = ``Average
+Transaction Amount (\$)'', fill = ``Promotion'' ) +
+theme\_minimal(base\_size = 16) + theme( axis.text.x =
+element\_text(size = 12), axis.text.y = element\_text(size = 12),
+axis.title = element\_text(size = 14), plot.title = element\_text(size =
+18, face = ``bold''), plot.subtitle = element\_text(size = 14),
+legend.title = element\_text(size = 14), legend.text =
+element\_text(size = 12) )
+
+\# Save the plot for high-quality output
+ggsave(``promotion\_effectiveness\_by\_season.png'', width = 10, height
+= 6, dpi = 300)
+
+sapply(data,class)
+
+\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#Dashboard \# Install necessary
+packages if not already installed install.packages(``forecast'')
+install.packages(``ggplot2'') install.packages(``readxl'')
+
+\# Load libraries library(forecast) library(ggplot2) library(readxl)
+
+Step 2: Load and Prepare the Dataset
+
+\section{Specify the path to the Excel
+file}\label{specify-the-path-to-the-excel-file-1}
+
+file\_path \textless-
+``C:\textbackslash Users\textbackslash Acer\textbackslash OneDrive\textbackslash Desktop\textbackslash Battles
+360\textbackslash Dataset \& Problem Question for Battle of Insights
+Workshops\textbackslash Data\textbackslash transactions.xlsx''
+
+\section{Load data}\label{load-data}
+
+data \textless- read\_excel(file\_path)
+
+\section{Ensure the Date column is in date
+format}\label{ensure-the-date-column-is-in-date-format}
+
+data\(Date <- as.Date(data\)Date, format = ``\%Y-\%m-\%d'')
+
+\section{Aggregate the transaction amounts by
+month}\label{aggregate-the-transaction-amounts-by-month}
+
+monthly\_data \textless- data \%\textgreater\% mutate(month =
+format(Date, ``\%Y-\%m'')) \%\textgreater\% group\_by(month)
+\%\textgreater\% summarise(total\_sales = sum(\texttt{Amount(\$)}, na.rm
+= TRUE)) \%\textgreater\% arrange(month)
+
+\section{Convert the month column to a date format for time
+series}\label{convert-the-month-column-to-a-date-format-for-time-series}
+
+monthly\_data\(month <- as.Date(paste0(monthly_data\)month, ``-01''))
+
+\section{View the prepared data}\label{view-the-prepared-data}
+
+print(head(monthly\_data))
+
+\#Step 3: Create a Time Series Object \# Create a time series object
+ts\_data \textless-
+ts(monthly\_data\(total_sales, start = c(as.numeric(format(min(monthly_data\)month),
+``\%Y'')), as.numeric(format(min(monthly\_data\$month), ``\%m''))),
+frequency = 12) \# Monthly data
+
+\#Step 4: Visualize the Time Series Data
+
+\section{Plot the time series data}\label{plot-the-time-series-data}
+
+autoplot(ts\_data) + labs( title = ``Monthly Total Sales'', x =
+``Time'', y = ``Total Sales (\$)'' ) + theme\_minimal(base\_size = 14)
+
+\#Step 5: Fit an ARIMA Model \# Fit an ARIMA model arima\_model
+\textless- auto.arima(ts\_data)
+
+\section{Print model summary}\label{print-model-summary}
+
+summary(arima\_model)
+
+\#Step 6: Forecast Future Values
+
+\section{Forecast the next 12 months}\label{forecast-the-next-12-months}
+
+forecast\_data \textless- forecast(arima\_model, h = 12)
+
+\section{Plot the forecast}\label{plot-the-forecast}
+
+autoplot(forecast\_data) + labs( title = ``ARIMA Forecast for Total
+Sales'', x = ``Time'', y = ``Forecasted Total Sales (\$)'' ) +
+theme\_minimal(base\_size = 14)
+
+\#Step 7: Evaluate the Model
+
+\section{Check residuals}\label{check-residuals}
+
+checkresiduals(arima\_model)
+
+\section{Forecast the next 12
+months}\label{forecast-the-next-12-months-1}
+
+forecast\_data \textless- forecast(arima\_model, h = 12)
+
+\section{Plot the forecast}\label{plot-the-forecast-1}
+
+forecast\_plot \textless- autoplot(forecast\_data) + labs( title =
+``ARIMA Forecast for Total Sales'', x = ``Time'', y = ``Forecasted Total
+Sales (\$)'' ) + theme\_minimal(base\_size = 16) + theme( plot.title =
+element\_text(size = 18, face = ``bold'', hjust = 0.5), axis.title =
+element\_text(size = 14), axis.text = element\_text(size = 12) )
+
+\section{Save the forecast plot as high-resolution
+output}\label{save-the-forecast-plot-as-high-resolution-output}
+
+ggsave(``ARIMA\_Forecast\_Total\_Sales.png'', forecast\_plot, width =
+10, height = 6, dpi = 300)
+
+\section{Check residuals}\label{check-residuals-1}
+
+residual\_diagnostics \textless- checkresiduals(arima\_model)
+
+\section{Print ARIMA model summary}\label{print-arima-model-summary}
+
+summary(arima\_model)
+
+\section{Residual diagnostics}\label{residual-diagnostics}
+
+checkresiduals(arima\_model)
+
+\section{Convert forecast data to a data
+frame}\label{convert-forecast-data-to-a-data-frame}
+
+forecast\_table \textless- data.frame( Time =
+time(forecast\_data\(mean),
+  Forecast = as.numeric(forecast_data\)mean), Lower\_95 =
+as.numeric(forecast\_data\(lower[, 2]),
+  Upper_95 = as.numeric(forecast_data\)upper{[}, 2{]}) )
+
+\section{Create a professional table}\label{create-a-professional-table}
+
+library(knitr) kable( forecast\_table, col.names = c(``Time'',
+``Forecast (\()", "Lower 95% CI (
+\))'', ``Upper 95\% CI (\$)''), caption = ``12-Month ARIMA Forecast of
+Total Sales'' )
+
+\#Step 1: Summarize Key ARIMA Metrics
+
+library(gtsummary) library(dplyr)
+
+\section{Prepare ARIMA model summary}\label{prepare-arima-model-summary}
+
+arima\_metrics \textless- tibble::tibble( Metric = c(``Model'', ``AIC'',
+``AICc'', ``BIC'', ``Log Likelihood'', ``Sigma\^{}2''), Value = c(NA,
+995.79, 997.06, 1005.64, -492.89, 6029088), \# NA for model name Model =
+c(``ARIMA(1,0,1)(0,0,1){[}12{]}'', rep(NA, 5)) \# Add a separate column
+for the model name )
+
+\section{Prepare Residual
+Diagnostics}\label{prepare-residual-diagnostics}
+
+residual\_metrics \textless- tibble::tibble( Metric = c(``Ljung-Box
+Q*``,''df'', ``p-value''), Value = c(3.2643, 8, 0.9167), Model = NA \#
+Add a Model column to match structure )
+
+\section{Prepare Training Error
+Metrics}\label{prepare-training-error-metrics}
+
+training\_metrics \textless- tibble::tibble( Metric = c(``ME'',
+``RMSE'', ``MAE'', ``MPE'', ``MAPE'', ``MASE'', ``ACF1''), Value = c(
+-72.22173, 2360.945, 1661.021, -0.7369178, 4.672268, 0.776904,
+0.01783573 ), Model = NA \# Add a Model column to match structure )
+
+library(gtsummary) library(dplyr)
+
+\section{Combine all metrics into a single
+table}\label{combine-all-metrics-into-a-single-table}
+
+model\_summary \textless- bind\_rows( arima\_metrics \%\textgreater\%
+mutate(Category = ``ARIMA Model Summary''), residual\_metrics
+\%\textgreater\% mutate(Category = ``Residual Diagnostics''),
+training\_metrics \%\textgreater\% mutate(Category = ``Training Set
+Error Metrics'') )
+
+library(gt) library(dplyr)
+
+\section{Combine all metrics into a single
+table}\label{combine-all-metrics-into-a-single-table-1}
+
+model\_summary \textless- bind\_rows( arima\_metrics \%\textgreater\%
+mutate(Category = ``ARIMA Model Summary''), residual\_metrics
+\%\textgreater\% mutate(Category = ``Residual Diagnostics''),
+training\_metrics \%\textgreater\% mutate(Category = ``Training Set
+Error Metrics'') )
+
+\section{Create a professional table using
+gt}\label{create-a-professional-table-using-gt}
+
+summary\_table \textless- model\_summary \%\textgreater\%
+gt(groupname\_col = ``Category'') \%\textgreater\% tab\_header( title =
+``ARIMA Model and Residual Diagnostics Summary'', subtitle = ``Detailed
+summary of ARIMA model metrics, residual diagnostics, and training set
+errors'' ) \%\textgreater\% cols\_label( Metric = ``Metric'', Value =
+``Value'', Model = ``Model Specification'' ) \%\textgreater\%
+fmt\_number( columns = ``Value'', decimals = 4 ) \%\textgreater\%
+tab\_options( table.font.size = ``small'', heading.align = ``center'',
+row\_group.as\_column = TRUE ) \%\textgreater\%
+opt\_align\_table\_header(align = ``center'')
+
+\section{Print the table}\label{print-the-table}
+
+print(summary\_table)
+
+\section{Save the table as a PNG
+image}\label{save-the-table-as-a-png-image}
+
+gtsave(summary\_table, ``arima\_model\_summary.png'')
+
+\section{Save the table as an HTML
+file}\label{save-the-table-as-an-html-file}
+
+gtsave(summary\_table, ``arima\_model\_summary.html'')
+
+\section{Load necessary libraries}\label{load-necessary-libraries}
+
+\section{List of required packages}\label{list-of-required-packages}
+
+required\_packages \textless- c(``shiny'', ``shinydashboard'',
+``dplyr'', ``ggplot2'', ``DT'')
+
+\section{Install missing packages}\label{install-missing-packages}
+
+new\_packages \textless- required\_packages{[}!(required\_packages
+\%in\% installed.packages(){[}, ``Package''{]}){]} if
+(length(new\_packages) \textgreater{} 0) \{
+install.packages(new\_packages) \}
+
+\section{Load all required packages}\label{load-all-required-packages}
+
+lapply(required\_packages, library, character.only = TRUE)
+
+\section{List of all required
+packages}\label{list-of-all-required-packages}
+
+required\_packages \textless- c( ``shiny'', ``shinydashboard'', ``gt'',
+``forecast'', ``Cairo'', ``viridis'', ``viridisLite'', ``flextable'',
+``gtsummary'', ``apaTables'', ``knitr'', ``readxl'', ``lubridate'',
+``forcats'', ``stringr'', ``purrr'', ``readr'', ``tibble'', ``ggplot2'',
+``tidyverse'', ``tidyr'', ``dplyr'', ``DT'', ``stats'', ``graphics'',
+``grDevices'', ``datasets'', ``utils'', ``methods'', ``base'' )
+
+\section{Install missing packages}\label{install-missing-packages-1}
+
+new\_packages \textless- required\_packages{[}!(required\_packages
+\%in\% installed.packages(){[}, ``Package''{]}){]} if
+(length(new\_packages) \textgreater{} 0) \{
+install.packages(new\_packages) \}
+
+\section{Load all required packages}\label{load-all-required-packages-1}
+
+lapply(required\_packages, library, character.only = TRUE)
+
+\section{Confirm loaded packages}\label{confirm-loaded-packages}
+
+sessionInfo()
+
+\section{Load necessary libraries}\label{load-necessary-libraries-1}
+
+library(shiny) library(shinydashboard) library(dplyr) library(ggplot2)
+library(DT)
+
+\section{Ensure the Date column is correctly
+formatted}\label{ensure-the-date-column-is-correctly-formatted}
+
+data\(Date <- as.Date(data\)Date, format = ``\%Y-\%m-\%d'')
+
+\section{Define the UI for the Shiny
+Dashboard}\label{define-the-ui-for-the-shiny-dashboard}
+
+ui \textless- dashboardPage( dashboardHeader(title = ``Data Insights
+Dashboard''), dashboardSidebar( sidebarMenu( menuItem(``Overview'',
+tabName = ``overview'', icon = icon(``table'')), menuItem(``Promotions
+Analysis'', tabName = ``promotions'', icon = icon(``tags'')),
+menuItem(``Transaction Trends'', tabName = ``trends'', icon =
+icon(``chart-line'')), menuItem(``Key Metrics'', tabName = ``metrics'',
+icon = icon(``chart-bar'')), menuItem(``Advanced Insights'', tabName =
+``insights'', icon = icon(``lightbulb'')) ) ), dashboardBody( tabItems(
+\# Overview Tab tabItem( tabName = ``overview'', fluidRow( box( title =
+``Dataset Summary'', width = 12, status = ``primary'', solidHeader =
+TRUE, DTOutput(``dataTable'') ) ) ),
+
+\begin{verbatim}
+  # Promotions Analysis Tab
+  tabItem(
+    tabName = "promotions",
+    fluidRow(
+      box(
+        title = "Promotion Effectiveness", width = 6, status = "warning", solidHeader = TRUE,
+        selectInput("seasonInput", "Select Season:", choices = NULL),
+        plotOutput("promotionPlot", height = "300px")
+      ),
+      box(
+        title = "Top Promotions Table", width = 6, status = "info", solidHeader = TRUE,
+        DTOutput("promotionTable")
+      )
+    )
+  ),
+  
+  # Transaction Trends Tab
+  tabItem(
+    tabName = "trends",
+    fluidRow(
+      box(
+        title = "Monthly Transaction Trends", width = 12, status = "success", solidHeader = TRUE,
+        plotOutput("transactionTrendsPlot", height = "350px")
+      )
+    )
+  ),
+  
+  # Key Metrics Tab
+  tabItem(
+    tabName = "metrics",
+    fluidRow(
+      valueBoxOutput("totalSales", width = 4),
+      valueBoxOutput("totalTransactions", width = 4),
+      valueBoxOutput("averageTransactionValue", width = 4)
+    )
+  ),
+  
+  # Advanced Insights Tab
+  tabItem(
+    tabName = "insights",
+    fluidRow(
+      box(
+        title = "Transaction Distribution by Store Type", width = 6, status = "primary", solidHeader = TRUE,
+        plotOutput("storeTypePlot", height = "300px")
+      ),
+      box(
+        title = "Discount Impact on Transactions", width = 6, status = "primary", solidHeader = TRUE,
+        plotOutput("discountImpactPlot", height = "300px")
+      )
+    )
+  )
+)
+\end{verbatim}
+
+) )
+
+\section{Define the server logic for the Shiny
+Dashboard}\label{define-the-server-logic-for-the-shiny-dashboard}
+
+server \textless- function(input, output, session) \{
+
+\# Populate the Season dropdown dynamically observe(\{
+updateSelectInput(session, ``seasonInput'', choices =
+unique(data\$Season)) \})
+
+\# Dataset Summary Table output\$dataTable \textless- renderDT(\{
+datatable(data, options = list(scrollX = TRUE, pageLength = 10)) \})
+
+\# Promotions Analysis promotion\_effectiveness \textless- reactive(\{
+req(input\(seasonInput)  # Ensure season is selected
+    data %>%
+      filter(Season == input\)seasonInput) \%\textgreater\%
+group\_by(Promotion) \%\textgreater\%
+summarise(average\_transaction\_amount = mean(\texttt{Amount(\$)}, na.rm
+= TRUE), .groups = ``drop'') \%\textgreater\%
+arrange(desc(average\_transaction\_amount)) \})
+
+output\(promotionPlot <- renderPlot({
+    req(nrow(promotion_effectiveness()) > 0)
+    ggplot(promotion_effectiveness(), aes(x = reorder(Promotion, average_transaction_amount), y = average_transaction_amount, fill = Promotion)) +
+      geom_col(color = "black", width = 0.7) +
+      scale_fill_viridis_d() +
+      labs(
+        title = paste("Promotion Effectiveness in", input\)seasonInput),
+x = ``Promotion'', y = ``Average Transaction Amount (\$)'' ) +
+theme\_minimal() + theme(axis.text.x = element\_text(angle = 45, hjust =
+1)) \})
+
+output\$promotionTable \textless- renderDT(\{
+req(nrow(promotion\_effectiveness()) \textgreater{} 0)
+datatable(promotion\_effectiveness(), options = list(scrollX = TRUE))
+\})
+
+\# Transaction Trends monthly\_trends \textless- reactive(\{ data
+\%\textgreater\% mutate(month = format(Date, ``\%Y-\%m''))
+\%\textgreater\% group\_by(month) \%\textgreater\%
+summarise(total\_transactions = n(), .groups = ``drop'') \})
+
+output\$transactionTrendsPlot \textless- renderPlot(\{
+ggplot(monthly\_trends(), aes(x = month, y = total\_transactions)) +
+geom\_line(color = ``blue'', size = 1) + geom\_point(color = ``red'',
+size = 2) + labs( title = ``Monthly Transaction Trends'', x = ``Month'',
+y = ``Total Transactions'' ) + theme\_minimal() + theme(axis.text.x =
+element\_text(angle = 45, hjust = 1)) \})
+
+\# Key Metrics output\(totalSales <- renderValueBox({
+    valueBox(
+      value = paste0("\)``, formatC(sum(data\(`Amount(\))`, na.rm =
+TRUE), format =''f'', big.mark = ``,'')), subtitle = ``Total Sales'',
+icon = icon(``dollar-sign''), color = ``green'' ) \})
+
+output\$totalTransactions \textless- renderValueBox(\{ valueBox( value =
+nrow(data), subtitle = ``Total Transactions'', icon = icon(``list''),
+color = ``blue'' ) \})
+
+output\(averageTransactionValue <- renderValueBox({
+    valueBox(
+      value = paste0("\)``, round(mean(data\(`Amount(\))`, na.rm =
+TRUE), 2)), subtitle =''Average Transaction Value'', icon =
+icon(``calculator''), color = ``purple'' ) \})
+
+\# Advanced Insights output\(storeTypePlot <- renderPlot({
+    data %>%
+      group_by(Store_Type) %>%
+      summarise(total_sales = sum(`Amount(\))`, na.rm = TRUE))
+\%\textgreater\% ggplot(aes(x = reorder(Store\_Type, total\_sales), y =
+total\_sales, fill = Store\_Type)) + geom\_col(color = ``black'', width
+= 0.7) + scale\_fill\_viridis\_d() + labs( title = ``Total Sales by
+Store Type'', x = ``Store Type'', y = ``Total Sales (\$)'' ) +
+theme\_minimal() \})
+
+output\(discountImpactPlot <- renderPlot({
+    data %>%
+      group_by(Discount_Applied) %>%
+      summarise(average_sales = mean(`Amount(\))`, na.rm = TRUE))
+\%\textgreater\% ggplot(aes(x = Discount\_Applied, y = average\_sales,
+fill = Discount\_Applied)) + geom\_col(color = ``black'', width = 0.7) +
+scale\_fill\_viridis\_d() + labs( title = ``Impact of Discounts on
+Transactions'', x = ``Discount Applied'', y = ``Average Transaction
+Amount (\$)'' ) + theme\_minimal() \}) \}
+
+\section{Run the Shiny App}\label{run-the-shiny-app}
+
+shinyApp(ui = ui, server = server)
+
+```
+
+Add a new chunk by clicking the \emph{Insert Chunk} button on the
+toolbar or by pressing \emph{Ctrl+Alt+I}.
+
+When you save the notebook, an HTML file containing the code and output
+will be saved alongside it (click the \emph{Preview} button or press
+\emph{Ctrl+Shift+K} to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the
+editor. Consequently, unlike \emph{Knit}, \emph{Preview} does not run
+any R code chunks. Instead, the output of the chunk when it was last run
+in the editor is displayed.
+
+\end{document}
